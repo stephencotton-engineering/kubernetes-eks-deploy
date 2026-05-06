@@ -1,0 +1,48 @@
+# Default values for app-chart
+# These can be overridden at deploy time using --set or a custom values file
+
+# Application name used to label all resources
+appName: stephen-app
+
+# Container image configuration
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: Always
+
+# Number of pods to start with
+replicaCount: 2
+
+# Container port the application listens on
+containerPort: 80
+
+# Resource requests and limits for each pod
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "250m"
+    memory: "256Mi"
+
+# Horizontal Pod Autoscaler configuration
+hpa:
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilization: 70
+
+# Service configuration
+service:
+  type: LoadBalancer
+  port: 80
+
+# Health check configuration
+probes:
+  readiness:
+    path: /
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    path: /
+    initialDelaySeconds: 10
+    periodSeconds: 15
