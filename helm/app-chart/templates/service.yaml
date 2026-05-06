@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # Uses the appName value from values.yaml
+  name: {{ .Values.appName }}-service
+  labels:
+    app: {{ .Values.appName }}
+
+spec:
+  # Service type pulled from values.yaml
+  type: {{ .Values.service.type }}
+
+  # Routes traffic to pods matching this label
+  selector:
+    app: {{ .Values.appName }}
+
+  ports:
+    - name: http
+      # Port the load balancer listens on
+      port: {{ .Values.service.port }}
+      # Port the container is running on
+      targetPort: {{ .Values.containerPort }}
+      protocol: TCP
